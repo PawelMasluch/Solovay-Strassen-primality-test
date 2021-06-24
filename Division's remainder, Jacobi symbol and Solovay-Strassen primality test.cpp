@@ -63,7 +63,7 @@ LL fastPowerModulo(LL a, LL k, LL m){
 }
 
 
-// Jacobi symbol (a/n).
+// Jacobi symbol (n/k).
 // n - any integer(!)
 // k - positive odd integer(!)
 
