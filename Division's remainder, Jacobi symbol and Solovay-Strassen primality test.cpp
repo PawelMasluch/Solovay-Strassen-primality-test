@@ -19,20 +19,22 @@ LL mod(LL a, LL b)
 
 
 // a*b (mod m).
-// Assumptions: a,b >= 0, m > 0
+// Assumption 1: a,b,m - integers
+// Assumption 2: m != 0
 LL multiplyModulo(LL a, LL b, LL m){
 	
-	a %= m;
-	b %= m;
+	a = mod(a, m);
+	b = mod(b, m);
+	// from now: a, b >= 0
 	
 	LL res = 0;
 	
 	while ( b > 0 ){
 		if( b % 2 == 1 ){
-			res = ( res + a ) % m;
+			res = mod( res+a, m );
 		}
 		
-		a = ( a+a ) % m;
+		a = mod( a+a, m );
 		
 		b /= 2;
 	}
@@ -42,12 +44,14 @@ LL multiplyModulo(LL a, LL b, LL m){
 
 
 // a^k (mod m).
-// Assumptions: k >= 0, a,m > 0
+// Assumption 1: a,k,m - integers; 
+// Assumption 2: m != 0
+// Assumption 3: k >= 0
 LL fastPowerModulo(LL a, LL k, LL m){
 	
-	a %= m;
+	a = mod(a, m);
 	
-	LL res = 1;
+	LL res = mod(1, m);
 	
 	while ( k > 0 ){
 		if( k % 2 == 1 ){
@@ -59,7 +63,7 @@ LL fastPowerModulo(LL a, LL k, LL m){
 		k /= 2;
 	}
 	
-	return res % m; 
+	return res; 
 }
 
 
@@ -158,17 +162,27 @@ bool isPrimeSolovayStrassen(LL n, int numberOfTests=50){
 
 int main(){
 	
+	// Test mnozenia modulo
+	std::cout << "Test mnozenia modulo" << std::endl;
+	std::cout << "(-5)*(-9) (mod -40) = " << multiplyModulo(-5, -9, -40) << std::endl << std::endl << std::endl;
+	
+	// Test potegowania modulo 
+	std::cout << "Test potegowania modulo" << std::endl;
+	std::cout << "(-5)^7 (mod -32) = " << fastPowerModulo(-5, 7, -32) << std::endl << std::endl << std::endl;
+	
 	// Testy symbolu Jacobiego
+	std::cout << "Testy symbolu Jacobiego" << std::endl;
 	REP(a,0,10){
 		REP(n,1,5){
-			cout << "(" << a << "/" << 2*n-1 << ")" << "= " << Jacobi(a,2*n-1) << endl;
+			std::cout << "(" << a << "/" << 2*n-1 << ")" << "= " << Jacobi(a,2*n-1) << std::endl;
 		}
-		cout << endl;
+		std::cout << std::endl;
 	}
-	cout << endl << endl;
+	std::cout << std::endl;
 	
 	
 	// Testy metody Solovay'a-Strassena
+	std::cout << "Testy metody Solovay'a-Strassena" << std::endl;
 	REP(n,0,100){
 		if( isPrimeSolovayStrassen(n) == true ){
 			std::cout << "Liczba " << n << " jest prawdopodobnie pierwsza\n";
